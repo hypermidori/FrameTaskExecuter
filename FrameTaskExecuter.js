@@ -3,7 +3,7 @@
 //=============================================================================
 
 /*:
- * @plugindesc 
+ * @plugindesc FrameTaskExecuter
  * @author midori
  *
  * @help This plugin does not provide plugin commands.
@@ -22,7 +22,7 @@ function FrameTaskExecuter() {
     return this;
 };
 
-FrameTaskExecuter.prototype.update = function () {
+FrameTaskExecuter.update = function () {
     var completeTasks = [];
     this.taskLists.forEach(function (task) {
         if (!task.update()) {
@@ -37,7 +37,7 @@ FrameTaskExecuter.prototype.update = function () {
     }.bind(this));
 };
 
-FrameTaskExecuter.prototype.execTask = function (taskList) {
+FrameTaskExecuter.execTask = function (taskList) {
     this.taskLists.push(taskList);
 };
 
@@ -45,6 +45,7 @@ FrameTaskExecuter.prototype.execTask = function (taskList) {
 //------------------------------------------------------------------
 function FrameTaskList() {
     this.tasks = [];
+    this.isInterrupt = false;
     this.completeListenerList = [];
     this.interruptListenerList = [];
 
@@ -53,9 +54,11 @@ function FrameTaskList() {
 
 FrameTaskList.prototype.update = function () {
     if (this.tasks.length <= 0) {
-        this.completeListenerList.forEach(function (listener) {
-            listener();
-        });
+    	if(this.isInterrupt){
+	        this.completeListenerList.forEach(function (listener) {
+	            listener();
+	        });
+    	}
         return false;       // tasks complete
     }
 
@@ -87,6 +90,7 @@ FrameTaskList.prototype.addCompleteListener = function (listener) {
 
 FrameTaskList.prototype.interrupt = function () {
     this.tasks = [];
+    this.isInterrupt = true;
 
     this.interruptListenerList.forEach(function (listener) {
         listener();
@@ -97,13 +101,11 @@ FrameTaskList.prototype.addInterruptListener = function (listener) {
     this.interruptListenerList.push(listener);
 };
 
-var $frameTaskExecuter = new FrameTaskExecuter();
-
 (function () {
     var SceneManager_update_prototype = SceneManager.update;
     var counter = 0;
     SceneManager.update = function () {
-        $frameTaskExecuter.update();
+        FrameTaskExecuter.update();
 
         SceneManager_update_prototype.call(this);
     };
