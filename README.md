@@ -1,4 +1,4 @@
-#### ツクールMVでフレームを跨いだ処理を同期処理っぽく書くためのプラグイン
+### ツクールMVでフレームを跨いだ処理を同期処理っぽく書くためのプラグイン
 
 ***
 
@@ -10,7 +10,6 @@ MV側のイベントで実装する場合は処理の間にウェイト挟むだ
 ***
 
 つかいかた
-FrameTaskListにフレームごとの処理を順番に詰め込んでいき、FrameTaskExecuterに渡すことによって処理が実行されます。
 
 ```
 var tasks = new FrameTaskList();
@@ -32,7 +31,7 @@ FrameTaskExecuter.execTask(tasks);
 
 ```
 
-メソッドチェーンを使って書くこともできます。（というかこちらが基本の使い方になると思います）
+FrameTaskListにフレームごとの処理を順番に詰め込んでいき、FrameTaskExecuterに渡すことによって処理が実行されます。
 
 ```
 var tasks = new FrameTaskList();
@@ -49,4 +48,7 @@ FrameTaskExecuter.execTask(tasks);
 
 ```
 
+メソッドチェーンを使って書くこともできます。（というかこちらが基本の使い方になると思います）
+
 ***
+
