@@ -20,13 +20,13 @@
 function FrameTaskExecuter() {
     this.taskLists = [];
     return this;
-}
+};
 
 FrameTaskExecuter.prototype.update = function () {
     var completeTasks = [];
     this.taskLists.forEach(function (task) {
         if (!task.update()) {
-            completeTasks.push(task)
+            completeTasks.push(task);
         }
     }.bind(this));
 
@@ -35,21 +35,21 @@ FrameTaskExecuter.prototype.update = function () {
         var idx = this.taskLists.indexOf(task);
         this.taskLists.splice(idx, 1);
     }.bind(this));
-}
+};
 
 FrameTaskExecuter.prototype.execTask = function (taskList) {
     this.taskLists.push(taskList);
-}
+};
 
 
 //------------------------------------------------------------------
 function FrameTaskList() {
     this.tasks = [];
-    this.completeListenerList = []
-    this.interruptListenerList = []
+    this.completeListenerList = [];
+    this.interruptListenerList = [];
 
     return this;
-}
+};
 
 FrameTaskList.prototype.update = function () {
     if (this.tasks.length <= 0) {
@@ -63,13 +63,13 @@ FrameTaskList.prototype.update = function () {
     task();
 
     return true;
-}
+};
 
 FrameTaskList.prototype.addTask = function (taskFunc) {
     this.tasks.push(taskFunc);
 
     return this;
-}
+};
 
 FrameTaskList.prototype.addWait = function (waitFrame) {
     for (var i = 0 ; i < waitFrame ; i++) {
@@ -77,11 +77,11 @@ FrameTaskList.prototype.addWait = function (waitFrame) {
     }
 
     return this;
-}
+};
 
 FrameTaskList.prototype.addCompleteListener = function (listener) {
     this.completeListenerList(listener);
-}
+};
 
 FrameTaskList.prototype.interrupt = function () {
     this.tasks = [];
@@ -89,11 +89,11 @@ FrameTaskList.prototype.interrupt = function () {
     this.interruptListenerList.forEach(function (listener) {
         listener();
     });
-}
+};
 
 FrameTaskList.prototype.addInterruptListener = function (listener) {
     this.interruptListenerList.push(listener);
-}
+};
 
 var $frameTaskExecuter = new FrameTaskExecuter();
 
