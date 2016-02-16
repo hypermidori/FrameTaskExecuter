@@ -60,7 +60,9 @@ FrameTaskList.prototype.update = function () {
     }
 
     task = this.tasks.shift();
-    task();
+    if(task){
+    	task();
+    }
 
     return true;
 };
@@ -73,7 +75,7 @@ FrameTaskList.prototype.addTask = function (taskFunc) {
 
 FrameTaskList.prototype.addWait = function (waitFrame) {
     for (var i = 0 ; i < waitFrame ; i++) {
-        this.addTask(function () { });        // add empty frame
+        this.addTask(null);        // add empty frame
     }
 
     return this;
